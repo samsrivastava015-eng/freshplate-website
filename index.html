@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreshPlate - Your Daily Meal Subscription</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .hero-bg {
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+        }
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .menu-card img {
+            transition: transform 0.3s ease-in-out;
+        }
+        .menu-card:hover img {
+            transform: scale(1.05);
+        }
+        [x-cloak] { display: none !important; }
+        .ai-recommend-bg {
+             background-image: linear-gradient(rgba(249, 115, 22, 0.9), rgba(234, 88, 12, 0.9)), url('https://images.unsplash.com/photo-1498837167922-ddd27525d352?q=80&w=2070&auto=format&fit=crop');
+             background-size: cover;
+             background-position: center;
+        }
+    </style>
+</head>
+<body x-data="appState">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md fixed w-full z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <a href="#" class="text-2xl font-bold text-orange-600">
+                    FreshPlate
+                </a>
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="#home" class="text-gray-600 hover:text-orange-600 transition duration-300">Home</a>
+                    <a href="#features" class="text-gray-600 hover:text-orange-600 transition duration-300">Features</a>
+                    <a href="#ai-recommender" class="text-gray-600 hover:text-orange-600 transition duration-300">AI Recommender</a>
+                    <a href="#menu" class="text-gray-600 hover:text-orange-600 transition duration-300">Menu</a>
+                    <a href="#pricing" class="text-gray-600 hover:text-orange-600 transition duration-300">Pricing</a>
+                    <a href="#corporate" class="text-gray-600 hover:text-orange-600 transition duration-300">Corporate</a>
+                    <a href="#reviews" class="text-gray-600 hover:text-orange-600 transition duration-300">Reviews</a>
+                </nav>
+                <div class="hidden md:block">
+                    <button @click="isModalOpen = true" class="bg-orange-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-orange-700 transition duration-300">
+                        My Dashboard
+                    </button>
+                </div>
+                <button @click="isMenuOpen = !isMenuOpen" class="md:hidden">
+                    <i data-lucide="menu" class="w-6 h-6 text-gray-700"></i>
+                </button>
+            </div>
+        </div>
+        <div x-show="isMenuOpen" x-cloak @click.away="isMenuOpen = false" class="md:hidden bg-white border-t">
+            <a href="#home" @click="isMenuOpen = false" class="block px-6 py-3 text-gray-600 hover:bg-gray-50">Home</a>
+            <a href="#features" @click="isMenuOpen = false" class="block px-6 py-3 text-gray-600 hover:bg-gray-50">Features</a>
+            <a href="#ai-recommender" @click="isMenuOpen = false" class="block px-6 py-3 text-gray-600 hover:bg-gray-50">AI Recommender</a>
+            <a href="#menu" @click="isMenuOpen = false" class="block px-6 py-3 text-gray-600 hover:bg-gray-50">Menu</a>
+            <a href="#pricing" @click="isMenuOpen = false" class="block px-6 py-3 text-gray-600 hover:bg-gray-50">Pricing</a>
+            <a href="#corporate" @click="isMenuOpen = false" class="block px-6 py-3 text-gray-600 hover:bg-gray-50">Corporate</a>
+            <a href="#reviews" @click="isMenuOpen = false" class="block px-6 py-3 text-gray-600 hover:bg-gray-50">Reviews</a>
+            <div class="px-6 py-4">
+                 <button @click="isModalOpen = true; isMenuOpen = false" class="w-full bg-orange-600 text-white font-semibold px-5 py-2 rounded-lg hover:bg-orange-700 transition duration-300">
+                    My Dashboard
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg pt-32 pb-20 md:pt-48 md:pb-32 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-extrabold leading-tight mb-4">Delicious, Healthy Meals Delivered Daily</h1>
+            <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto mb-8">
+                Tired of cooking? Get fresh, home-style meals delivered right to your doorstep. Powered by AI to match your taste.
+            </p>
+            <a href="#pricing" class="bg-orange-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-orange-700 transition duration-300 transform hover:scale-105">
+                View Our Plans
+            </a>
+        </div>
+    </section>
+
+    <!-- Key Features Section -->
+    <section id="features" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-4">A Smarter Way to Dine</h2>
+            <p class="text-lg text-gray-500 text-center mb-12 max-w-2xl mx-auto">
+                We've designed our service with your convenience and satisfaction in mind. Here's what makes us stand out.
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="feature-card bg-gray-50 p-8 rounded-lg shadow-sm transition-all duration-300">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-orange-100 mb-6"><i data-lucide="brain-circuit" class="w-8 h-8 text-orange-600"></i></div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">AI Meal Recommendations</h3>
+                    <p class="text-gray-600">Our smart AI suggests meals based on your preferences and dietary needs.</p>
+                </div>
+                 <div class="feature-card bg-gray-50 p-8 rounded-lg shadow-sm transition-all duration-300">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-orange-100 mb-6"><i data-lucide="pause-circle" class="w-8 h-8 text-orange-600"></i></div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Pause & Resume Easily</h3>
+                    <p class="text-gray-600">Going on vacation? Pause your subscription anytime and resume when you're back.</p>
+                </div>
+                <div class="feature-card bg-gray-50 p-8 rounded-lg shadow-sm transition-all duration-300">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-orange-100 mb-6"><i data-lucide="building" class="w-8 h-8 text-orange-600"></i></div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Corporate Orders</h3>
+                    <p class="text-gray-600">Fuel your team with delicious, healthy meals tailored for corporate needs.</p>
+                </div>
+                <div class="feature-card bg-gray-50 p-8 rounded-lg shadow-sm transition-all duration-300">
+                    <div class="flex items-center justify-center h-16 w-16 rounded-full bg-orange-100 mb-6"><i data-lucide="layout-dashboard" class="w-8 h-8 text-orange-600"></i></div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">User Dashboard</h3>
+                    <p class="text-gray-600">Easily track your bookings, manage your subscription, and view your payment history.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Recommender Section -->
+    <section id="ai-recommender" class="ai-recommend-bg py-20 text-white">
+        <div class="container mx-auto px-6 text-center">
+            <i data-lucide="brain-circuit" class="w-16 h-16 mx-auto mb-4 text-orange-200"></i>
+            <h2 class="text-3xl md:text-4xl font-bold mb-4">Don't Know What to Eat?</h2>
+            <p class="text-lg md:text-xl text-orange-100 max-w-3xl mx-auto mb-8">
+                Let our AI find the perfect meal for you based on your unique tastes and dietary goals. Get started now!
+            </p>
+            <button @click="isAiModalOpen = true" class="bg-white text-orange-600 font-bold py-3 px-8 rounded-lg text-lg hover:bg-orange-100 transition duration-300 transform hover:scale-105">
+                Find My Perfect Meal
+            </button>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-4">Explore Our Menu</h2>
+            <p class="text-lg text-gray-500 text-center mb-12 max-w-2xl mx-auto">
+                A new menu every day, crafted with fresh ingredients and authentic recipes to give you the taste of home.
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Item 1 -->
+                <div class="menu-card bg-white rounded-lg shadow-lg overflow-hidden group" data-diet="veg" data-spice="medium" data-goal="balanced">
+                    <div class="overflow-hidden"><img src="https://images.pexels.com/photos/9609835/pexels-photo-9609835.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Pure Veg Thali" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Veg+Thali';"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Pure Veg Thali</h3>
+                        <p class="text-gray-600 text-sm">A balanced meal with dal, sabzi, roti, rice, and salad.</p>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="menu-card bg-white rounded-lg shadow-lg overflow-hidden group" data-diet="veg" data-spice="spicy" data-goal="balanced">
+                    <div class="overflow-hidden"><img src="https://images.pexels.com/photos/2474661/pexels-photo-2474661.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Punjabi Delight" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Paneer+Tikka';"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Punjabi Delight</h3>
+                        <p class="text-gray-600 text-sm">Rich and hearty paneer tikka with mint chutney.</p>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="menu-card bg-white rounded-lg shadow-lg overflow-hidden group" data-diet="non-veg" data-spice="spicy" data-goal="high-protein">
+                    <div class="overflow-hidden"><img src="https://images.pexels.com/photos/12737921/pexels-photo-12737921.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Chicken Biryani" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Chicken+Biryani';"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Chicken Biryani</h3>
+                        <p class="text-gray-600 text-sm">Aromatic basmati rice with tender chicken and exotic spices.</p>
+                    </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="menu-card bg-white rounded-lg shadow-lg overflow-hidden group" data-diet="vegan" data-spice="mild" data-goal="low-carb">
+                    <div class="overflow-hidden"><img src="https://images.pexels.com/photos/1059905/pexels-photo-1059905.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Healthy Salad Box" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Healthy+Salad';"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Healthy Salad Box</h3>
+                        <p class="text-gray-600 text-sm">A refreshing mix of exotic veggies, sprouts, and a tangy dressing.</p>
+                    </div>
+                </div>
+                <!-- Item 5 -->
+                <div class="menu-card bg-white rounded-lg shadow-lg overflow-hidden group" data-diet="veg" data-spice="mild" data-goal="balanced">
+                    <div class="overflow-hidden"><img src="https://images.pexels.com/photos/5560763/pexels-photo-5560763.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="South Indian Special" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Dosa+Sambar';"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">South Indian Special</h3>
+                        <p class="text-gray-600 text-sm">Light and healthy dosa, sambar, and coconut chutney.</p>
+                    </div>
+                </div>
+                <!-- Item 6 -->
+                <div class="menu-card bg-white rounded-lg shadow-lg overflow-hidden group" data-diet="non-veg" data-spice="medium" data-goal="high-protein">
+                    <div class="overflow-hidden"><img src="https://images.pexels.com/photos/15077255/pexels-photo-15077255/free-photo-of-indian-fish-curry.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Fish Curry Meal" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Fish+Curry';"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Fish Curry Meal</h3>
+                        <p class="text-gray-600 text-sm">Tangy fish curry served with steamed rice.</p>
+                    </div>
+                </div>
+                <!-- Item 7 -->
+                <div class="menu-card bg-white rounded-lg shadow-lg overflow-hidden group" data-diet="vegan" data-spice="medium" data-goal="low-carb">
+                    <div class="overflow-hidden"><img src="https://images.pexels.com/photos/2456435/pexels-photo-2456435.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Tofu Stir-Fry" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Tofu+Stir-fry';"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Tofu Stir-Fry</h3>
+                        <p class="text-gray-600 text-sm">Protein-packed tofu stir-fried with fresh vegetables.</p>
+                    </div>
+                </div>
+                <!-- Item 8 -->
+                <div class="menu-card bg-white rounded-lg shadow-lg overflow-hidden group" data-diet="veg" data-spice="spicy" data-goal="high-protein">
+                    <div class="overflow-hidden"><img src="https://images.pexels.com/photos/5410400/pexels-photo-5410400.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Egg Curry Meal" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Egg+Curry';"></div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-2">Egg Curry Meal</h3>
+                        <p class="text-gray-600 text-sm">Spicy and flavorful egg curry with two rotis.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Dynamic Offers Section -->
+    <section id="offers" class="py-20 bg-orange-500 text-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-4">Today's Special Offers</h2>
+            <p class="text-lg text-orange-100 text-center mb-12 max-w-2xl mx-auto">Don't miss out on these limited-time deals!</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 flex items-center">
+                    <div class="mr-4"><i data-lucide="tag" class="w-12 h-12 text-orange-500"></i></div>
+                    <div>
+                        <h3 class="font-bold text-xl">First Week Free!</h3>
+                        <p>Subscribe to any monthly plan today and get your first week of meals absolutely free.</p>
+                    </div>
+                </div>
+                <div class="bg-white text-gray-800 rounded-lg shadow-lg p-6 flex items-center">
+                     <div class="mr-4"><i data-lucide="sparkles" class="w-12 h-12 text-orange-500"></i></div>
+                    <div>
+                        <h3 class="font-bold text-xl">Weekend Special Combo</h3>
+                        <p>Get 15% off when you order a meal for both Saturday and Sunday.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-4">Flexible & Affordable Plans</h2>
+            <p class="text-lg text-gray-500 text-center mb-12 max-w-2xl mx-auto">Choose the plan that fits your lifestyle. Cancel or pause anytime. No hidden fees.</p>
+            <div class="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-8">
+                <!-- Plans -->
+                <div class="w-full max-w-sm border border-gray-200 rounded-lg shadow-lg p-8 flex flex-col">
+                    <h3 class="text-2xl font-semibold text-gray-800 text-center mb-2">Trial Plan</h3>
+                    <p class="text-gray-500 text-center mb-6">Perfect for trying us out.</p>
+                    <p class="text-5xl font-extrabold text-gray-900 text-center mb-4">₹150</p>
+                    <p class="text-gray-500 text-center mb-8">per meal</p>
+                    <ul class="space-y-4 text-gray-600 mb-8 flex-grow">
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>1 Full Meal</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>Daily Changing Menu</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>Pay per order</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>Contactless Delivery</li>
+                    </ul>
+                    <button @click="isModalOpen = true" class="w-full bg-orange-200 text-orange-800 font-semibold py-3 rounded-lg hover:bg-orange-300 transition duration-300">Order Now</button>
+                </div>
+                <div class="w-full max-w-sm border-2 border-orange-600 rounded-lg shadow-2xl p-8 flex flex-col relative transform scale-105">
+                    <div class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2"><span class="bg-orange-600 text-white text-sm font-semibold px-4 py-1 rounded-full">MOST POPULAR</span></div>
+                    <h3 class="text-2xl font-semibold text-gray-800 text-center mb-2">Weekly Plan</h3>
+                    <p class="text-gray-500 text-center mb-6">Great for a busy week.</p>
+                    <p class="text-5xl font-extrabold text-gray-900 text-center mb-4">₹850</p>
+                    <p class="text-gray-500 text-center mb-8">for 7 meals</p>
+                    <ul class="space-y-4 text-gray-600 mb-8 flex-grow">
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>7 Full Meals</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>Daily Changing Menu</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>Pause subscription anytime</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>Priority Customer Support</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>Free Delivery</li>
+                    </ul>
+                    <button @click="isModalOpen = true" class="w-full bg-orange-600 text-white font-semibold py-3 rounded-lg hover:bg-orange-700 transition duration-300">Subscribe</button>
+                </div>
+                <div class="w-full max-w-sm border border-gray-200 rounded-lg shadow-lg p-8 flex flex-col">
+                    <h3 class="text-2xl font-semibold text-gray-800 text-center mb-2">Monthly Plan</h3>
+                    <p class="text-gray-500 text-center mb-6">Best value for your money.</p>
+                    <p class="text-5xl font-extrabold text-gray-900 text-center mb-4">₹3200</p>
+                    <p class="text-gray-500 text-center mb-8">for 30 meals</p>
+                    <ul class="space-y-4 text-gray-600 mb-8 flex-grow">
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>30 Full Meals</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>All Weekly Plan Benefits</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>Weekend Special Menu</li>
+                        <li class="flex items-center"><i data-lucide="check-circle" class="w-5 h-5 text-green-500 mr-3"></i>Customizable Meal Options</li>
+                    </ul>
+                    <button @click="isModalOpen = true" class="w-full bg-orange-200 text-orange-800 font-semibold py-3 rounded-lg hover:bg-orange-300 transition duration-300">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Group/Corporate Orders Section -->
+    <section id="corporate" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="bg-gray-50 rounded-lg shadow-xl overflow-hidden lg:flex items-center">
+                 <div class="lg:w-1/2 p-8 sm:p-12">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">Group & Corporate Orders</h2>
+                    <p class="text-gray-600 mb-6">Fuel your team with healthy and delicious meals. We provide hassle-free meal solutions for offices and events of all sizes.</p>
+                    <ul class="space-y-3 text-gray-700 mb-8">
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-orange-500 mr-3"></i>Customized weekly menus & Bulk discounts</li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-orange-500 mr-3"></i>Individually packed & hygienic meals</li>
+                        <li class="flex items-center"><i data-lucide="check" class="w-5 h-5 text-orange-500 mr-3"></i>On-time, reliable delivery to your office</li>
+                    </ul>
+                    <a href="#contact" class="bg-orange-600 text-white font-semibold py-3 px-8 rounded-lg hover:bg-orange-700 transition duration-300">Request a Quote</a>
+                </div>
+                <div class="lg:w-1/2 h-64 lg:h-auto">
+                    <img class="h-full w-full object-cover" src="https://images.pexels.com/photos/3184418/pexels-photo-3184418.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Corporate team having lunch" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Corporate+Lunch';">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews & Ratings Section -->
+    <section id="reviews" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-4">What Our Customers Say</h2>
+            <p class="text-lg text-gray-500 text-center mb-12 max-w-2xl mx-auto">We're proud to have happy customers. Here's what they have to say about FreshPlate.</p>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Reviews -->
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Customer Priya S." class="w-14 h-14 rounded-full mr-4 border-2 border-orange-300 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/100x100/FFF/333?text=User';">
+                            <div>
+                                <h4 class="font-bold text-gray-800">Priya S.</h4>
+                                <div class="flex items-center" x-html="getStars(5)"></div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4 italic">"FreshPlate has been a lifesaver! The food is always delicious and feels just like home."</p>
+                    </div>
+                    <img src="https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Review photo of a meal" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Customer+Meal';">
+                </div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <img src="https://images.pexels.com/photos/837358/pexels-photo-837358.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Customer Rohan M." class="w-14 h-14 rounded-full mr-4 border-2 border-orange-300 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/100x100/FFF/333?text=User';">
+                            <div>
+                                <h4 class="font-bold text-gray-800">Rohan M.</h4>
+                                <div class="flex items-center" x-html="getStars(5)"></div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4 italic">"The variety in the menu is fantastic. I've been a subscriber for three months, and I've never been bored."</p>
+                    </div>
+                     <img src="https://images.pexels.com/photos/704569/pexels-photo-704569.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Review photo of a meal" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Customer+Meal';">
+                </div>
+                <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                             <img src="https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Customer Anjali K." class="w-14 h-14 rounded-full mr-4 border-2 border-orange-300 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/100x100/FFF/333?text=User';">
+                            <div>
+                                <h4 class="font-bold text-gray-800">Anjali K.</h4>
+                                <div class="flex items-center" x-html="getStars(4)"></div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 mb-4 italic">"Excellent service and amazing food quality. The customer support is also very responsive."</p>
+                    </div>
+                     <img src="https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Review photo of a salad" class="w-full h-48 object-cover" onerror="this.onerror=null;this.src='https://placehold.co/600x400/FFF/333?text=Customer+Meal';">
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-4">Get In Touch</h2>
+            <p class="text-lg text-gray-500 text-center mb-12 max-w-2xl mx-auto">Have questions or special requests for corporate orders? We're here to help.</p>
+            <div class="max-w-4xl mx-auto bg-white p-8 sm:p-12 rounded-lg shadow-lg">
+                <form>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <input type="text" placeholder="Your Name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                        <input type="email" placeholder="Your Email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500">
+                    </div>
+                    <div class="mb-6"><input type="text" placeholder="Subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"></div>
+                    <div class="mb-6"><textarea placeholder="Your Message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500"></textarea></div>
+                    <div class="text-center"><button type="submit" class="bg-orange-600 text-white font-bold py-3 px-8 rounded-lg text-lg hover:bg-orange-700 transition duration-300">Send Message</button></div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white">
+        <div class="container mx-auto px-6 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold text-orange-500 mb-4">FreshPlate</h3>
+                    <p class="text-gray-400">Your daily dose of delicious, home-cooked meals delivered with love.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#features" class="text-gray-400 hover:text-white">Features</a></li>
+                        <li><a href="#menu" class="text-gray-400 hover:text-white">Menu</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="facebook" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="instagram" class="w-6 h-6"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i data-lucide="twitter" class="w-6 h-6"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-500"><p>&copy; 2024 FreshPlate. All rights reserved.</p></div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <!-- User Dashboard/Login Modal -->
+    <div x-show="isModalOpen" x-cloak class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+        <div @click.away="isModalOpen = false" class="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <!-- Login View -->
+            <div x-show="!isLoggedIn" class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Welcome Back!</h2>
+                    <button @click="isModalOpen = false"><i data-lucide="x" class="w-6 h-6 text-gray-500"></i></button>
+                </div>
+                <p class="text-gray-600 mb-6">Log in to manage your subscriptions.</p>
+                <form @submit.prevent="login()">
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                        <input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="you@example.com" required>
+                    </div>
+                    <div class="mb-6">
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                        <input type="password" id="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="w-full bg-orange-600 text-white font-semibold py-3 rounded-lg hover:bg-orange-700 transition duration-300">Continue</button>
+                </form>
+                <p class="text-xs text-gray-500 text-center mt-4">By continuing, you agree to our Terms of Service.</p>
+            </div>
+
+            <!-- Dashboard View -->
+            <div x-show="isLoggedIn" class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">My Dashboard</h2>
+                    <button @click="isModalOpen = false"><i data-lucide="x" class="w-6 h-6 text-gray-500"></i></button>
+                </div>
+                
+                <div class="bg-gray-100 p-4 rounded-lg mb-6">
+                    <h3 class="font-bold text-lg mb-2">My Subscription</h3>
+                    <div class="flex items-center justify-between">
+                        <p>Status: 
+                            <span :class="subscriptionStatus === 'Active' ? 'text-green-600' : 'text-yellow-600'" class="font-semibold" x-text="subscriptionStatus"></span>
+                        </p>
+                        <button @click="toggleSubscription()" :class="subscriptionStatus === 'Active' ? 'bg-yellow-500 hover:bg-yellow-600' : 'bg-green-500 hover:bg-green-600'" class="text-white text-sm font-semibold px-4 py-2 rounded-lg transition">
+                            <span x-show="subscriptionStatus === 'Active'">Pause</span>
+                            <span x-show="subscriptionStatus !== 'Active'">Resume</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="font-bold text-lg mb-2">Order History</h3>
+                    <ul class="space-y-2 text-gray-600 text-sm">
+                        <li class="flex justify-between p-2 bg-gray-50 rounded"><span>#FP1204 - Veg Thali</span><span>Delivered</span></li>
+                        <li class="flex justify-between p-2 bg-gray-50 rounded"><span>#FP1203 - Punjabi Delight</span><span>Delivered</span></li>
+                        <li class="flex justify-between p-2 bg-gray-50 rounded"><span>#FP1202 - Veg Thali</span><span>Delivered</span></li>
+                    </ul>
+                </div>
+
+                <button @click="logout()" class="w-full bg-gray-200 text-gray-800 font-semibold py-3 rounded-lg hover:bg-gray-300 transition">Logout</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- AI Recommendation Modal -->
+    <div x-show="isAiModalOpen" x-cloak class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 p-4">
+        <div @click.away="isAiModalOpen = false" class="bg-white rounded-lg shadow-xl p-8 w-full max-w-lg">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Find Your Perfect Meal</h2>
+                <button @click="isAiModalOpen = false"><i data-lucide="x" class="w-6 h-6 text-gray-500"></i></button>
+            </div>
+            
+            <div x-show="!aiResult">
+                <p class="text-gray-600 mb-6">Answer a few questions to get started.</p>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-2">1. Select your dietary preference:</label>
+                        <div class="flex space-x-4"><label class="flex items-center"><input type="radio" x-model="aiPrefs.diet" value="any" class="mr-2"> Any</label><label class="flex items-center"><input type="radio" x-model="aiPrefs.diet" value="veg" class="mr-2"> Veg</label><label class="flex items-center"><input type="radio" x-model="aiPrefs.diet" value="non-veg" class="mr-2"> Non-Veg</label><label class="flex items-center"><input type="radio" x-model="aiPrefs.diet" value="vegan" class="mr-2"> Vegan</label></div>
+                    </div>
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-2">2. How spicy do you like it?</label>
+                        <div class="flex space-x-4"><label class="flex items-center"><input type="radio" x-model="aiPrefs.spice" value="any" class="mr-2"> Any</label><label class="flex items-center"><input type="radio" x-model="aiPrefs.spice" value="mild" class="mr-2"> Mild</label><label class="flex items-center"><input type="radio" x-model="aiPrefs.spice" value="medium" class="mr-2"> Medium</label><label class="flex items-center"><input type="radio" x-model="aiPrefs.spice" value="spicy" class="mr-2"> Spicy</label></div>
+                    </div>
+                     <div>
+                        <label class="block font-medium text-gray-700 mb-2">3. What's your health goal today?</label>
+                        <div class="flex space-x-4"><label class="flex items-center"><input type="radio" x-model="aiPrefs.goal" value="any" class="mr-2"> Any</label><label class="flex items-center"><input type="radio" x-model="aiPrefs.goal" value="balanced" class="mr-2"> Balanced</label><label class="flex items-center"><input type="radio" x-model="aiPrefs.goal" value="high-protein" class="mr-2"> High-Protein</label><label class="flex items-center"><input type="radio" x-model="aiPrefs.goal" value="low-carb" class="mr-2"> Low-Carb</label></div>
+                    </div>
+                </div>
+                <button @click="getRecommendation()" class="w-full mt-8 bg-orange-600 text-white font-semibold py-3 rounded-lg hover:bg-orange-700 transition">Recommend Me a Meal</button>
+            </div>
+
+            <div x-show="aiResult">
+                <h3 class="text-xl font-bold text-gray-800 mb-4">Our Recommendation For You:</h3>
+                <div x-html="aiResult" class="mb-6"></div>
+                <button @click="aiResult = null" class="w-full bg-gray-200 text-gray-800 font-semibold py-3 rounded-lg hover:bg-gray-300 transition">Start Over</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('appState', () => ({
+                isMenuOpen: false,
+                isModalOpen: false,
+                isAiModalOpen: false,
+                isLoggedIn: false,
+                subscriptionStatus: 'Active',
+                aiPrefs: { diet: 'any', spice: 'any', goal: 'any' },
+                aiResult: null,
+
+                login() {
+                    this.isLoggedIn = true;
+                },
+                logout() {
+                    this.isLoggedIn = false;
+                },
+                toggleSubscription() {
+                    this.subscriptionStatus = this.subscriptionStatus === 'Active' ? 'Paused' : 'Active';
+                },
+                getRecommendation() {
+                    const menuItems = Array.from(document.querySelectorAll('.menu-card'));
+                    const filtered = menuItems.filter(item => {
+                        const dietMatch = this.aiPrefs.diet === 'any' || item.dataset.diet === this.aiPrefs.diet;
+                        const spiceMatch = this.aiPrefs.spice === 'any' || item.dataset.spice === this.aiPrefs.spice;
+                        const goalMatch = this.aiPrefs.goal === 'any' || item.dataset.goal === this.aiPrefs.goal;
+                        return dietMatch && spiceMatch && goalMatch;
+                    });
+
+                    if (filtered.length > 0) {
+                        const recommendation = filtered[Math.floor(Math.random() * filtered.length)];
+                        this.aiResult = `<div class="bg-gray-50 rounded-lg p-4 flex items-center">
+                            <img src="${recommendation.querySelector('img').src}" class="w-24 h-24 object-cover rounded-md mr-4">
+                            <div>
+                                <h4 class="font-bold text-lg">${recommendation.querySelector('h3').textContent}</h4>
+                                <p class="text-gray-600">${recommendation.querySelector('p').textContent}</p>
+                            </div>
+                        </div>`;
+                    } else {
+                        this.aiResult = `<div class="text-center p-4 bg-gray-100 rounded-lg">
+                            <p class="font-semibold">No meals match your criteria!</p>
+                            <p class="text-sm text-gray-600">Try broadening your search.</p>
+                        </div>`;
+                    }
+                },
+                getStars(rating) {
+                    let stars = '';
+                    const starSVG = `<svg class="w-4 h-4 text-yellow-400 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>`;
+                    const emptyStarSVG = `<svg class="w-4 h-4 text-gray-300 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>`;
+                    for(let i = 0; i < 5; i++) {
+                        stars += i < rating ? starSVG : emptyStarSVG;
+                    }
+                    return stars;
+                }
+            }));
+        });
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>
+
